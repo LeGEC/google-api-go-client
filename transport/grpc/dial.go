@@ -17,7 +17,6 @@ import (
 	"strings"
 
 	"cloud.google.com/go/compute/metadata"
-	"go.opencensus.io/plugin/ocgrpc"
 	"golang.org/x/oauth2"
 	"google.golang.org/api/internal"
 	"google.golang.org/api/option"
@@ -203,10 +202,7 @@ func dial(ctx context.Context, insecure bool, o *internal.DialSettings) (*grpc.C
 }
 
 func addOCStatsHandler(opts []grpc.DialOption, settings *internal.DialSettings) []grpc.DialOption {
-	if settings.TelemetryDisabled {
-		return opts
-	}
-	return append(opts, grpc.WithStatsHandler(&ocgrpc.ClientHandler{}))
+	return opts
 }
 
 // grpcTokenSource supplies PerRPCCredentials from an oauth.TokenSource.

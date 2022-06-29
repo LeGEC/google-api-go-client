@@ -11,8 +11,6 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
-
-	"go.opencensus.io/trace"
 )
 
 func TestHTTPFormat(t *testing.T) {
@@ -22,11 +20,11 @@ func TestHTTPFormat(t *testing.T) {
 	spanID2 := [8]byte{0, 0, 0, 0, 0, 0, 0, 123}
 	tests := []struct {
 		incoming        string
-		wantSpanContext trace.SpanContext
+		wantSpanContext SpanContext
 	}{
 		{
 			incoming: "105445aa7843bc8bf206b12000100000/18374686479671623803;o=1",
-			wantSpanContext: trace.SpanContext{
+			wantSpanContext: SpanContext{
 				TraceID:      traceID,
 				SpanID:       spanID1,
 				TraceOptions: 1,
@@ -34,7 +32,7 @@ func TestHTTPFormat(t *testing.T) {
 		},
 		{
 			incoming: "105445aa7843bc8bf206b12000100000/123;o=0",
-			wantSpanContext: trace.SpanContext{
+			wantSpanContext: SpanContext{
 				TraceID:      traceID,
 				SpanID:       spanID2,
 				TraceOptions: 0,

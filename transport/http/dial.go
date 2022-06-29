@@ -15,13 +15,11 @@ import (
 	"net/http"
 	"time"
 
-	"go.opencensus.io/plugin/ochttp"
 	"golang.org/x/oauth2"
 	"google.golang.org/api/googleapi/transport"
 	"google.golang.org/api/internal"
 	"google.golang.org/api/option"
 	"google.golang.org/api/transport/cert"
-	"google.golang.org/api/transport/http/internal/propagation"
 	"google.golang.org/api/transport/internal/dca"
 )
 
@@ -202,13 +200,7 @@ func fallbackBaseTransport() *http.Transport {
 }
 
 func addOCTransport(trans http.RoundTripper, settings *internal.DialSettings) http.RoundTripper {
-	if settings.TelemetryDisabled {
-		return trans
-	}
-	return &ochttp.Transport{
-		Base:        trans,
-		Propagation: &propagation.HTTPFormat{},
-	}
+	return trans
 }
 
 // clonedTransport returns the given RoundTripper as a cloned *http.Transport.
